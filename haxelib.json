@@ -1,0 +1,20 @@
+{
+  "name": "coconut.router",
+  "license": "MIT",
+  "tags": [
+    "router",
+    "ui",
+    "coconut"
+  ],
+  "classPath": "src",
+  "contributors": [
+    "kevinresol"
+  ],
+  "releasenote": "initial release",
+  "version": "0.0.0",
+  "dependencies": {
+    "coconut.data": "",
+    "coconut.ui": "",
+    "tink_url": ""
+  }
+}

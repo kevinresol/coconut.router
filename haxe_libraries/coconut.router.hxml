@@ -1,0 +1,7 @@
+
+-D coconut.router=0.0.0
+-cp src
+
+-lib coconut.data
+-lib coconut.ui
+-lib tink_url
