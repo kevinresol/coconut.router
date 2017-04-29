@@ -11,6 +11,17 @@ typedef Provider = {
 	function getCurrent():String;
 }
 
+class RouteData implements Model {
+	@:constant var provider:Provider;
+	@:editable var url:String = @byDefault provider.getCurrent();
+	@:computed var node:RenderResult = provider.route(url);
+}
+
+typedef Router = 
+	#if (js && !nodejs) BrowserRouter
+	#end ;
+
+#if (js && !nodejs)
 class BrowserProvider {
 	public function new() {}
 	
@@ -19,12 +30,6 @@ class BrowserProvider {
 		
 	public function route(url:tink.Url):RenderResult
 		throw 'abstract';
-}
-
-class RouteData implements Model {
-	@:constant var provider:Provider;
-	@:editable var url:String = @byDefault provider.getCurrent();
-	@:computed var node:RenderResult = provider.route(url);
 }
 
 class BrowserRouter extends View<{data:RouteData}> {
@@ -36,12 +41,14 @@ class BrowserRouter extends View<{data:RouteData}> {
 	';
 	
 	function onclick(data:RouteData, e:js.html.MouseEvent) {
-		switch (cast e.target).localName {
-			case 'a':
-				e.preventDefault();
-				switch (cast e.target).href {
-					case null | '': // do nothing
+		var elem:js.html.Element = cast e.target;
+		switch elem.localName {
+			case 'a' if(elem.hasAttribute('x-route')):
+				switch elem.getAttribute('href') {
+					case null: // do nothing
+					case href if(href.indexOf('//') >= 0): // do nothing, let browser handle
 					case href:
+						e.preventDefault();
 						data.url = href;
 						js.Browser.window.history.pushState(null, null, href);
 				}
@@ -49,3 +56,4 @@ class BrowserRouter extends View<{data:RouteData}> {
 		}
 	}
 }
+#end

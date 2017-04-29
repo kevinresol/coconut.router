@@ -14,7 +14,7 @@ class RunTests {
 		});
 		
 		window.addEventListener('popstate', function() data.url = window.location.href);
-		document.body.appendChild(hxx('<BrowserRouter data=${data}/>').toElement());
+		document.body.appendChild(hxx('<Router data=${data}/>').toElement());
 	}
 }
 
@@ -34,13 +34,13 @@ class MyProvider extends BrowserProvider {
 class Home extends coconut.ui.View<{}> {
 	function render() '
 		<div>
-			This is Home Page. <a href="next?123">Go to next page</a>
+			This is Home Page. <a href="next?123">Go to next page</a> <a>No href</a>
 		</div>
 	';
 }
 
 class Other extends coconut.ui.View<{url:String}> {
 	function render() '
-		<a href="google.com">${url}</a>
+		<a href="//google.com">${url}</a>
 	';
 }
