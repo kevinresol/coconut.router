@@ -63,7 +63,7 @@ class BrowserRouter extends View<{data:RouteData}> {
 	}
 		
 	static function onclick(e:js.html.MouseEvent) {
-		var elem:js.html.AnchorElement = cast e.target;
+		var elem:js.html.AnchorElement = cast e.currentTarget;
 		switch elem.getAttribute('href') {
 			case null: // do nothing
 			case href if(href.indexOf('//') >= 0): // do nothing, let browser handle
