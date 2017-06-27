@@ -15,6 +15,27 @@ class RouteData implements Model {
 	@:constant var provider:Provider;
 	@:editable var url:String = @byDefault provider.getCurrent();
 	@:computed var node:RenderResult = provider.route(url);
+	
+	public function register(noMonkeyPatch = false) {
+		#if (js && !nodejs) 
+		if(!noMonkeyPatch) {
+			var window = js.Browser.window;
+			var oldPushState = window.history.pushState;
+			untyped window.history.pushState = function(data, title, ?url) {
+				oldPushState(data, title, url);
+				window.dispatchEvent(new js.html.Event('popstate'));
+			}
+			var window = js.Browser.window;
+			var oldReplaceState = window.history.replaceState;
+			untyped window.history.replaceState = function(data, title, ?url) {
+				oldReplaceState(data, title, url);
+				window.dispatchEvent(new js.html.Event('popstate'));
+			}
+		}
+		js.Browser.window.addEventListener('popstate', function() url = js.Browser.window.location.href);
+		#end
+	}
+		
 }
 
 typedef Router = 
@@ -34,25 +55,21 @@ class BrowserProvider {
 
 class BrowserRouter extends View<{data:RouteData}> {
 	
-	function render() '
-		<div onclick=${onclick.bind(data)}>
-			${data.node}
-		</div>
-	';
+	function render() return data.node;
 	
-	function onclick(data:RouteData, e:js.html.MouseEvent) {
-		var elem:js.html.Element = cast e.target;
-		switch elem.localName {
-			case 'a' if(elem.hasAttribute('x-route')):
-				switch elem.getAttribute('href') {
-					case null: // do nothing
-					case href if(href.indexOf('//') >= 0): // do nothing, let browser handle
-					case href:
-						e.preventDefault();
-						data.url = href;
-						js.Browser.window.history.pushState(null, null, href);
-				}
-			default: // do nothing
+	public static function link(attr:vdom.VDom.AnchorAttr, ?children) {
+		untyped attr.onclick = onclick;
+		return vdom.VDom.a(attr, children);
+	}
+		
+	static function onclick(e:js.html.MouseEvent) {
+		var elem:js.html.AnchorElement = cast e.target;
+		switch elem.getAttribute('href') {
+			case null: // do nothing
+			case href if(href.indexOf('//') >= 0): // do nothing, let browser handle
+			case href:
+				e.preventDefault();
+				js.Browser.window.history.pushState(null, null, href);
 		}
 	}
 }

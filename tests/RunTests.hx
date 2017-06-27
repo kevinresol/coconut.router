@@ -4,6 +4,7 @@ import js.Browser.*;
 import vdom.VDom.*;
 import coconut.Ui.hxx;
 import coconut.router.Router;
+import coconut.router.Router.*;
 
 class RunTests {
 
@@ -13,7 +14,8 @@ class RunTests {
 			provider: new MyProvider(),
 		});
 		
-		window.addEventListener('popstate', function() data.url = window.location.href);
+		data.register();
+		
 		document.body.appendChild(hxx('<Router data=${data}/>').toElement());
 	}
 }
@@ -24,7 +26,7 @@ class MyProvider extends BrowserProvider {
 			case '/':
 				hxx('<Home/>');
 			case '/next':
-				hxx('<div><a>Hello</a> <a href="/other">World</a></div>');
+				hxx('<div><link>Hello</link> <link href="/other">World</link></div>');
 			case v:
 				hxx('<Other url=${url.toString()}/>');
 		}
@@ -34,7 +36,7 @@ class MyProvider extends BrowserProvider {
 class Home extends coconut.ui.View<{}> {
 	function render() '
 		<div>
-			This is Home Page. <a href="next?123">Go to next page</a> <a>No href</a>
+			This is Home Page. <link href="next?123">Go to next page</link> <link>No href</link>
 		</div>
 	';
 }
