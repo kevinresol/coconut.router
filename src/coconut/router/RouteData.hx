@@ -5,13 +5,35 @@ import coconut.data.Model;
 import coconut.ui.View;
 import coconut.ui.RenderResult;
 import tink.state.*;
+import tink.Url;
 
 class RouteData implements Model {
-	@:external var path:String;
+	@:external var url:Url;
+	
+	#if (js && !nodejs) 
+	public static inline function create(noMonkeyPatch = false)
+		return new RouteData({url: new BrowserPath(noMonkeyPatch)});
+	
+	public static function link(attr:vdom.VDom.AnchorAttr, ?children) {
+		untyped attr.onclick = onclick;
+		return vdom.VDom.a(attr, children);
+	}
+	
+	function onclick(e:js.html.MouseEvent) {
+		var elem:js.html.AnchorElement = cast e.currentTarget;
+		switch elem.getAttribute('href') {
+			case null: // do nothing
+			case href if(href.indexOf('//') >= 0): // do nothing, let browser handle
+			case href:
+				e.preventDefault();
+				js.Browser.window.history.pushState(null, null, href);
+		}
+	};
+	#end
 }
 
 #if (js && !nodejs) 
-abstract BrowserPath(Observable<String>) to Observable<String> {
+abstract BrowserPath(Observable<Url>) to Observable<Url> {
 	public function new(noMonkeyPatch = false) {
 		if(!noMonkeyPatch) {
 			var window = js.Browser.window;
@@ -51,9 +73,8 @@ abstract BrowserPath(Observable<String>) to Observable<String> {
 		this = state.observe();
 	}
 	
-	static function getCurrent() {
-		var location = js.Browser.window.location;
-		return location.pathname + location.search + location.hash;
+	static function getCurrent():Url {
+		return js.Browser.window.location.href;
 	}
 }
 #end
