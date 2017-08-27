@@ -19,7 +19,7 @@ class RouteData implements Model {
 		return vdom.VDom.a(attr, children);
 	}
 	
-	function onclick(e:js.html.MouseEvent) {
+	static function onclick(e:js.html.MouseEvent) {
 		var elem:js.html.AnchorElement = cast e.currentTarget;
 		switch elem.getAttribute('href') {
 			case null: // do nothing
