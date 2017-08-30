@@ -28,7 +28,11 @@ class RouteData implements Model {
 				e.preventDefault();
 				js.Browser.window.history.pushState(null, null, href);
 		}
-	};
+	}
+	
+	public inline function goto(href:String)
+		js.Browser.window.history.pushState(null, null, href);
+		
 	#end
 }
 
