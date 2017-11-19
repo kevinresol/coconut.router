@@ -15,7 +15,13 @@ class RouteData implements Model {
 		return new RouteData({url: new BrowserPath(noMonkeyPatch)});
 	
 	public static function link(attr:vdom.VDom.AnchorAttr, ?children) {
-		untyped attr.onclick = onclick;
+		untyped {
+			var original = attr.onclick;
+			attr.onclick = function(e) {
+				onclick(e);
+				if(original != null) original(e);
+			}
+		}
 		return vdom.VDom.a(attr, children);
 	}
 	
