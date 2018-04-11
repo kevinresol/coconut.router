@@ -51,7 +51,7 @@ class App extends coconut.ui.View {
 class NavBar extends coconut.ui.View {
 	function render() '
 		<div>
-			<a href="/">Home</a> | <a href="/other">Other</a> | <a href="/unknown">Unknown</a>
+			<a href="/">Home</a> | <a href="/other">Other</a> | <a href="/unknown">Unknown</a> | <a href="https://www.example.com">example.com</a>
 		</div>
 	';
 }

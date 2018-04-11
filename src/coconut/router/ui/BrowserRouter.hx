@@ -26,7 +26,7 @@ class BrowserRouter<T:EnumValue> extends coconut.ui.View {
 			case anchor: 
 				switch anchor.getAttribute('href') {
 					case null: // do nothing
-					case href if(href.indexOf('//') >= 0): // let's assume this is an external link, let browser handle
+					case href if(router.isExternalLink(href)): // let browser handle
 					case href:
 						event.preventDefault();
 						// assume the href is a valid route for Router<T> ?
