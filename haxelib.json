@@ -12,5 +12,9 @@
   ],
   "releasenote": "initial release",
   "version": "0.0.0",
-  "dependencies": {}
+  "dependencies": {
+    "coconut.data": "",
+    "coconut.ui": "",
+    "spectatory": "gh:kevinresol/spectatory"
+  }
 }

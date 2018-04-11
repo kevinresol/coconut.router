@@ -4,4 +4,4 @@
 
 -lib coconut.data
 -lib coconut.ui
--lib tink_url
+-lib spectatory

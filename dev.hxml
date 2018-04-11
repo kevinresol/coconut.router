@@ -3,4 +3,4 @@ tests.hxml
 -lib coconut.router
 -lib coconut.vdom
 -lib travix
--lib tink_hxx
+-lib spectatory

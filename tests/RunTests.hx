@@ -1,48 +1,85 @@
 package ;
 
 import js.Browser.*;
-import vdom.VDom.*;
 import coconut.Ui.hxx;
-import coconut.router.Router;
-import coconut.router.Router.*;
+import coconut.router.ui.BrowserRouter as Router;
 
 class RunTests {
 
 	static function main() {
-		
-		var data = new RouteData({
-			provider: new MyProvider(),
+		var router = new coconut.router.BrowserRouter({
+			routeToLocation: function(route) {
+				return switch route {
+					case HomePage: '/';
+					case OtherPage: '/other';
+					case UnknownPage(v): v;
+				}
+			},
+			locationToRoute: function(url) {
+				return switch url.path.parts().toStringArray() {
+					case []: HomePage;
+					case ['other']: OtherPage;
+					case _: UnknownPage(url.path.toString());
+				}
+			},
 		});
 		
-		data.register();
-		
-		document.body.appendChild(hxx('<Router data=${data}/>').toElement());
+		document.body.appendChild(hxx('<App router=${router}/>').toElement());
 	}
 }
 
-class MyProvider extends BrowserProvider {
-	override function route(url:tink.Url) {
-		return switch url.path.toString() {
-			case '/':
-				hxx('<Home/>');
-			case '/next':
-				hxx('<div><link>Hello</link> <link href="/other">World</link></div>');
-			case v:
-				hxx('<Other url=${url.toString()}/>');
-		}
-	}
+enum Route {
+	HomePage;
+	OtherPage;
+	UnknownPage(path:String);
 }
 
-class Home extends coconut.ui.View<{}> {
+class App extends coconut.ui.View {
+	@:attr var router:coconut.router.BrowserRouter<Route>;
+	
+	function render() '
+		<Router router=${router}>
+			<switch ${router.route}>
+				<case ${HomePage}><Home/>
+				<case ${OtherPage}><Other/>
+				<case ${UnknownPage(v)}><Unknown path=${v}/>
+			</switch>
+		</Router>
+	';
+}
+
+class NavBar extends coconut.ui.View {
 	function render() '
 		<div>
-			This is Home Page. <link href="next?123">Go to next page</link> <link>No href</link>
+			<a href="/">Home</a> | <a href="/other">Other</a> | <a href="/unknown">Unknown</a>
 		</div>
 	';
 }
 
-class Other extends coconut.ui.View<{url:String}> {
+class Home extends coconut.ui.View {
 	function render() '
-		<a href="//google.com">${url}</a>
+		<div>
+			<NavBar/>
+			This is Home Page.
+		</div>
+	';
+}
+
+class Other extends coconut.ui.View {
+	function render() '
+		<div>
+			<NavBar/>
+			This is Other Page.
+		</div>
+	';
+}
+
+class Unknown extends coconut.ui.View {
+	@:attr var path:String;
+	function render() '
+		<div>
+			<NavBar/>
+			Page not found: ${path}
+		</div>
 	';
 }
