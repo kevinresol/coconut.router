@@ -2,7 +2,6 @@ package ;
 
 import js.Browser.*;
 import coconut.Ui.hxx;
-import coconut.router.ui.BrowserRouter as Router;
 
 class RunTests {
 
@@ -24,7 +23,7 @@ class RunTests {
 			},
 		});
 		
-		document.body.appendChild(hxx('<App router=${router}/>').toElement());
+		hxx('<App router=${router}/>').renderInto(document.body);
 	}
 }
 
@@ -38,13 +37,13 @@ class App extends coconut.ui.View {
 	@:attr var router:coconut.router.BrowserRouter<Route>;
 	
 	function render() '
-		<Router router=${router}>
+		<div ref=${router.intercept}>
 			<switch ${router.route}>
 				<case ${HomePage}><Home/>
 				<case ${OtherPage}><Other/>
 				<case ${UnknownPage(v)}><Unknown path=${v}/>
 			</switch>
-		</Router>
+		</div>
 	';
 }
 
