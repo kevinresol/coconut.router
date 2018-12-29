@@ -20,7 +20,7 @@ class BrowserRouter<T:EnumValue> implements coconut.data.Model {
 		Location.replace(routeToLocation(route));
 		
 	public function intercept(element:Element) {
-		element.addEventListener('click', listener);
+		if(element != null) element.addEventListener('click', listener);
 	}
 	
 	function pushUrl(url:String)
