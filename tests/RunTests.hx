@@ -23,7 +23,7 @@ class RunTests {
 			},
 		});
 		
-		hxx('<App router=${router}/>').renderInto(document.body);
+		coconut.ui.Renderer.mount(document.body, hxx('<App router=${router}/>'));
 	}
 }
 
