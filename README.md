@@ -9,12 +9,6 @@ map it into a Route enum defined by user.
 
 Use `back()`, `push(route)` and `replace(route)` to manipulate the browser history.
 
-## Router View
-
-`coconut.router.ui.BrowserRouter<T>` 
-
-This is a helper `View` that intercepts clicks on the `<a>` tag and forward
-them to the `push(route)` function of your router model.
 
 ## Example Usage
 
@@ -23,7 +17,6 @@ package ;
 
 import js.Browser.*;
 import coconut.Ui.hxx;
-import coconut.router.ui.BrowserRouter as Router;
 
 class RunTests {
 
@@ -45,7 +38,7 @@ class RunTests {
 			},
 		});
 		
-		document.body.appendChild(hxx('<App router=${router}/>').toElement());
+		coconut.ui.Renderer.mount(document.body, hxx('<App router=${router}/>'));
 	}
 }
 
@@ -59,13 +52,13 @@ class App extends coconut.ui.View {
 	@:attr var router:coconut.router.BrowserRouter<Route>;
 	
 	function render() '
-		<Router router=${router}>
+		<div ref=${router.intercept}>
 			<switch ${router.route}>
 				<case ${HomePage}><Home/>
 				<case ${OtherPage}><Other/>
 				<case ${UnknownPage(v)}><Unknown path=${v}/>
 			</switch>
-		</Router>
+		</div>
 	';
 }
 
