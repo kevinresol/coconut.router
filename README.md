@@ -13,8 +13,6 @@ Use `back()`, `push(route)` and `replace(route)` to manipulate the browser histo
 ## Example Usage
 
 ```haxe
-package ;
-
 import js.Browser.*;
 import coconut.Ui.hxx;
 
@@ -53,6 +51,7 @@ class App extends coconut.ui.View {
 	
 	function render() '
 		<div ref=${router.intercept}>
+			<NavBar/>
 			<switch ${router.route}>
 				<case ${HomePage}><Home/>
 				<case ${OtherPage}><Other/>
@@ -73,7 +72,6 @@ class NavBar extends coconut.ui.View {
 class Home extends coconut.ui.View {
 	function render() '
 		<div>
-			<NavBar/>
 			This is Home Page.
 		</div>
 	';
@@ -82,7 +80,6 @@ class Home extends coconut.ui.View {
 class Other extends coconut.ui.View {
 	function render() '
 		<div>
-			<NavBar/>
 			This is Other Page.
 		</div>
 	';
@@ -92,10 +89,8 @@ class Unknown extends coconut.ui.View {
 	@:attr var path:String;
 	function render() '
 		<div>
-			<NavBar/>
 			Page not found: ${path}
 		</div>
 	';
 }
-
 ```
