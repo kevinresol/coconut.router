@@ -12,6 +12,9 @@ Use `back()`, `push(route)` and `replace(route)` to manipulate the browser histo
 
 ## Example Usage
 
+Add `ref={router.intercept}` to the very root element in your render tree.  
+This will intercept all clicks on `<a>` elements and update the model accordingly.
+
 ```haxe
 import js.Browser.*;
 import coconut.Ui.hxx;
