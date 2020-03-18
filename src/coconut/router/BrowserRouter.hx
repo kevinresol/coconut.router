@@ -1,6 +1,7 @@
 package coconut.router;
 
 import js.html.*;
+import js.Browser.*;
 import spectatory.Location;
 import tink.Url;
 
@@ -13,11 +14,15 @@ class BrowserRouter<T:EnumValue> implements coconut.data.Model {
 	public function back()
 		Location.back();
 	
-	public function push(route:T)
+	public function push(route:T) {
 		Location.push(routeToLocation(route));
+		window.scroll({top: 0});
+	}
 	
-	public function replace(route:T)
+	public function replace(route:T) {
 		Location.replace(routeToLocation(route));
+		window.scroll({top: 0});
+	}
 		
 	public function intercept(element:Element) {
 		if(element != null) element.addEventListener('click', listener);
