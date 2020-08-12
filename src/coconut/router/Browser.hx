@@ -30,7 +30,7 @@ class History<T:EnumValue> {
 	}
 }
 
-class Router<T:EnumValue> extends coconut.ui.View {
+class Router<T:EnumValue> extends View {
 	@:attr var renderScreen:T->RenderResult;
 	@:attr var locationToRoute:Url->T;
 	@:attr var routeToLocation:T->Url;

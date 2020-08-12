@@ -65,14 +65,12 @@ class App extends coconut.ui.View {
 	#end
 	
 	function renderScreen(route:Route) '
-		<>
-			<switch ${route}>
-				<case ${Home}>
-					<HomeView/>
-				<case ${Settings(id)}>
-					<SettingsView id=${id}/>
-			</switch>
-		</>
+		<switch ${route}>
+			<case ${Home}>
+				<HomeView/>
+			<case ${Settings(id)}>
+				<SettingsView id=${id}/>
+		</switch>
 	';
 	
 	function getOptions(route:Route) {

@@ -26,7 +26,7 @@ class History<T:EnumValue> {
 	}
 }
 
-class Router<T> extends coconut.ui.View {
+class Router<T> extends View {
 	final Native = Navigator.create();
 	
 	@:attr var initialRoute:T;
@@ -38,25 +38,25 @@ class Router<T> extends coconut.ui.View {
 		<Native.Navigator>
 			<Native.Screen
 				name="Wrapper"
-				component=${(props:BaseProps<T>) -> props.route.params == null ? null : (<Screen>${renderScreen(props.route.params)}</Screen>)}
 				initialParams=${initialRoute}
+				component=${(props:BaseProps<T>) -> props.route.params == null ? null : (<Screen>${renderScreen(props.route.params)}</Screen>)}
 				options=${(props:BaseProps<T>) -> props.route.params == null ? null : getOptions(props.route.params)}
 			/>
 		</Native.Navigator>
 	';
 }
 
-private class Screen extends coconut.ui.View {
+private class Screen extends View {
 	@:keep
 	static final contextType = NavigationContext;
 	
-	@:attr var children:Children = null;
+	@:attr var children:RenderResult;
 	
 	var context:Dynamic;
 	
 	function render() '
 		<Implicit defaults=${[History => new History(context)]}>
-			${...children}
+			${children}
 		</Implicit>
 	';
 }

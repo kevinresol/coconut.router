@@ -1,6 +1,7 @@
 -cp tests
 -main Demo
 -js bin/demo/native/index.js
+-dce full
 
 -lib coconut.router
 -lib coconut.react-native
