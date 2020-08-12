@@ -1,0 +1,8 @@
+-cp tests
+-main Demo
+-js bin/demo/native/index.js
+
+-lib coconut.router
+-lib coconut.react-native
+-lib react-navigation
+-lib spectatory

@@ -1,2 +1,8 @@
 dump
 bin/js
+bin/demo/native/.cache
+bin/demo/native/dist
+bin/demo/native/index.js
+bin/demo/web/index.js
+
+node_modules

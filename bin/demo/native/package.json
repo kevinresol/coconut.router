@@ -1,0 +1,20 @@
+{
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "@react-native-community/masked-view": ">= 0.1.0",
+    "@react-navigation/native": "^5.0.5",
+    "@react-navigation/stack": "^5.9.0",
+    "react": "*",
+    "react-dom": "^16.13.1",
+    "react-native-gesture-handler": ">= 1.0.0",
+    "react-native-safe-area-context": ">= 0.6.0",
+    "react-native-screens": ">= 2.0.0-alpha.0 || >= 2.0.0-beta.0 || >= 2.0.0",
+    "react-native-web": "^0.13.6",
+    "react-navigation": "^4.4.0"
+  },
+  "alias": {
+    "react-native": "react-native-web"
+  }
+}

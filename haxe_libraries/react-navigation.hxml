@@ -1,0 +1,4 @@
+# @install: lix --silent download "gh://github.com/haxe-react/react-navigation#1e13f7f7a1d558d2bce689c3c4fd8500a4365126" into react-navigation/0.0.0/github/1e13f7f7a1d558d2bce689c3c4fd8500a4365126
+-lib react-next
+-cp ${HAXE_LIBCACHE}/react-navigation/0.0.0/github/1e13f7f7a1d558d2bce689c3c4fd8500a4365126/src
+-D react-navigation=0.0.0

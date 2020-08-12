@@ -1,6 +1,0 @@
-tests.hxml
--js bin/js/index.js
--lib coconut.router
--lib coconut.vdom
--lib travix
--lib spectatory

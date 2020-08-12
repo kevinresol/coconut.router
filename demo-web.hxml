@@ -1,0 +1,9 @@
+-cp tests
+-main Demo
+-js bin/demo/web/index.js
+
+-lib coconut.router
+-lib coconut.react-dom
+-lib spectatory
+
+-D react-global
