@@ -7,21 +7,21 @@ import coconut.ui.*;
 
 @:default(null) // will rely on Implicit#defaults
 class History<T:EnumValue> {
-	final locationToRoute:Url->T;
-	final routeToLocation:T->Url;
+	final urlToRoute:Url->T;
+	final routeToUrl:T->Url;
 	
 	public function new(l2r, r2l) {
-		locationToRoute = l2r;
-		routeToLocation = r2l;
+		urlToRoute = l2r;
+		routeToUrl = r2l;
 	}
 	
 	public function push(route:T) {
-		Location.push(routeToLocation(route));
+		Location.push(routeToUrl(route));
 		window.scroll({top: 0});
 	}
 	
 	public function replace(route:T) {
-		Location.replace(routeToLocation(route));
+		Location.replace(routeToUrl(route));
 		window.scroll({top: 0});
 	}
 	
@@ -32,12 +32,12 @@ class History<T:EnumValue> {
 
 class Router<T:EnumValue> extends View {
 	@:attr var renderScreen:T->RenderResult;
-	@:attr var locationToRoute:Url->T;
-	@:attr var routeToLocation:T->Url;
-	@:computed var current:T = locationToRoute(Location.href.value);
+	@:attr var urlToRoute:Url->T;
+	@:attr var routeToUrl:T->Url;
+	@:computed var current:T = urlToRoute(Location.href.value);
 	
 	function render() '
-		<Implicit defaults=${[History => new History(locationToRoute, routeToLocation)]}>
+		<Implicit defaults=${[History => new History(urlToRoute, routeToUrl)]}>
 			${renderScreen(current)}
 		</Implicit>
 	';
