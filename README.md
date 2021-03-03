@@ -23,14 +23,14 @@ class RunTests {
 
 	static function main() {
 		var router = new coconut.router.BrowserRouter({
-			routeToLocation: function(route) {
+			routeToUrl: function(route) {
 				return switch route {
 					case HomePage: '/';
 					case OtherPage: '/other';
 					case UnknownPage(v): v;
 				}
 			},
-			locationToRoute: function(url) {
+			urlToRoute: function(url) {
 				return switch url.path.parts().toStringArray() {
 					case []: HomePage;
 					case ['other']: OtherPage;

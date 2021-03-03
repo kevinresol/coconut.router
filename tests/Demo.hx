@@ -29,14 +29,14 @@ enum Route {
 }
 
 class RouteTools {
-	public static function locationToRoute(url:tink.Url):Route {
+	public static function urlToRoute(url:tink.Url):Route {
 		return switch url.path.parts().toStringArray() {
 			case ['settings', id]: Settings(id);
 			case _: Home;
 		}
 	}
 	
-	public static function routeToLocation(route:Route):tink.Url {
+	public static function routeToUrl(route:Route):tink.Url {
 		return switch route {
 			case Home: '/';
 			case Settings(id): '/settings/$id';
@@ -81,10 +81,11 @@ class App extends coconut.ui.View {
 	}
 }
 
-typedef RouteHistory = History<Route>;
+// typedef RouteHistory = History<Route>;
+typedef RouteHistory = History;
 
 class HomeView extends coconut.ui.View {
-	@:implicit var history:RouteHistory;
+	// @:implicit var history:RouteHistory;
 	
 	#if react_native
 	function render() '
@@ -95,9 +96,9 @@ class HomeView extends coconut.ui.View {
 	';
 	#else
 	function render() '
-		<div>
+		<div ref=${Router.intercept}>
 			<div>Home</div>
-			<button onclick=${() -> history.push(Settings('foo'))}>Settings</button>
+			<a href=${RouteTools.routeToUrl(Settings('foo'))}>Settings</a>
 		</div>
 	';
 	#end

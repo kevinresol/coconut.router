@@ -8,3 +8,4 @@
 -lib spectatory
 
 -D react-global
+-D analyzer-optimize
