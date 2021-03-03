@@ -96,7 +96,7 @@ class HomeView extends coconut.ui.View {
 	';
 	#else
 	function render() '
-		<div ref=${Router.intercept}>
+		<div>
 			<div>Home</div>
 			<a href=${RouteTools.routeToUrl(Settings('foo'))}>Settings</a>
 		</div>

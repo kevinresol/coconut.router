@@ -39,6 +39,7 @@ class History {
 class Router<T:EnumValue> extends View {
 	@:attr var renderScreen:T->RenderResult;
 	@:attr var urlToRoute:Url->T;
+	@:attr function isExternalLink(href:String):Bool return href.indexOf('//') >= 0;
 	@:computed var current:T = urlToRoute(Location.href.value);
 	
 	function render() '
@@ -47,43 +48,23 @@ class Router<T:EnumValue> extends View {
 		</div>
 	';
 	
-	public static function intercept(container:Element) {
+	function intercept(container:Element) {
 		if(container != null)
 			container.addEventListener('click', onClick);
 	}
 	
-	static function onClick(e:MouseEvent) {
+	function onClick(e:MouseEvent) {
 		switch (cast e.target:Element).closest('a') {
 			case null:
 			case anchor:
 				if(!e.defaultPrevented && e.button == 0 && isTargetingSelf(anchor.getAttribute('target')) && !isModifiedEvent(e)) {
 					e.preventDefault();
-					navigate(anchor.getAttribute('href'));
+					switch anchor.getAttribute('href') {
+						case null:
+						case href:
+							if(!isExternalLink(href)) History.INST.push(href);
+					}
 				}
-		}
-	}
-	
-	// ported from https://github.com/ReactTraining/react-router/blob/be6a22f8c5a0d19011e42ed444ba77e0d4432f87/packages/react-router-dom/modules/Link.js#L35-L53
-	// function onclick(e:MouseEvent) {
-	// 	try switch onClick {
-	// 		case null:
-	// 		case cb: cb.invoke(e);
-	// 	} catch(ex) {
-	// 		e.preventDefault();
-	// 		throw ex;
-	// 	}
-		
-	// 	if(!e.defaultPrevented && e.button == 0 && isTargetingSelf(target) && !isModifiedEvent(e)) {
-	// 		e.preventDefault();
-	// 		navigate();
-	// 	}
-	// }
-	
-	static inline function navigate(href:String) {
-		switch href {
-			case null:
-			case url:
-				History.INST.push(url);
 		}
 	}
 	
