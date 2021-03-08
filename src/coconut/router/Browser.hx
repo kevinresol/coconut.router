@@ -43,15 +43,10 @@ class Router<T:EnumValue> extends View {
 	@:computed var current:T = urlToRoute(Location.href.value);
 	
 	function render() '
-		<div ref=${intercept}>
+		<div onclick=${onClick}>
 			${renderScreen(current)}
 		</div>
 	';
-	
-	function intercept(container:Element) {
-		if(container != null)
-			container.addEventListener('click', onClick);
-	}
 	
 	function onClick(e:MouseEvent) {
 		switch (cast e.target:Element).closest('a') {
