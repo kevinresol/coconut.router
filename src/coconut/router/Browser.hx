@@ -53,11 +53,13 @@ class Router<T:EnumValue> extends View {
 			case null:
 			case anchor:
 				if(!e.defaultPrevented && e.button == 0 && isTargetingSelf(anchor.getAttribute('target')) && !isModifiedEvent(e)) {
-					e.preventDefault();
 					switch anchor.getAttribute('href') {
 						case null:
 						case href:
-							if(!isExternalLink(href)) History.INST.push(href);
+							if(!isExternalLink(href)) {
+								e.preventDefault();
+								History.INST.push(href);
+							}
 					}
 				}
 		}
